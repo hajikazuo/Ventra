@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ventra.Domain.Entities
 {
@@ -23,7 +18,7 @@ namespace Ventra.Domain.Entities
         public decimal Price { get; set; }
 
         [Required]
-        public int Stock {  get; set; }
+        public int Stock { get; set; }
 
         public Category? Category { get; set; }
         public Guid CategoryId { get; set; }

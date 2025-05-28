@@ -11,5 +11,34 @@ namespace Ventra.Infrastructure.Context
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Client> Clients { get; set; }  
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //restringe a exclusão de clientes que possuem pedidos
+            modelBuilder.Entity<Order>()
+                .HasOne<Client>(p => p.Client)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(p => p.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //exclui automaticamento os itens de um pedido quando um pedido é excluído
+            modelBuilder.Entity<OrderItem>()
+                .HasOne<Order>(ip => ip.Order)
+                .WithMany(p => p.OrderItems)
+                .HasForeignKey(p => p.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //restringe exclusão de produtos que possuem itens pedidos
+            modelBuilder.Entity<OrderItem>()
+                .HasOne<Product>(ip => ip.Product)
+                .WithMany()
+                .HasForeignKey(p => p.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }
