@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Globalization;
 using Ventra.Domain.Entities.Users;
+using Ventra.Domain.Interfaces;
 using Ventra.Infrastructure.Context;
+using Ventra.Infrastructure.Repositories;
+using Ventra.Infrastructure.Services;
+using Ventra.Infrastructure.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +35,13 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Account/Logout";
     options.SlidingExpiration = true;
 });
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddSingleton(RT.Comb.Provider.Sql);
 
 var app = builder.Build();
 

@@ -5,6 +5,10 @@ namespace Ventra.Domain.Entities
 {
     public class Client : BaseEntity
     {
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+
         [DataType(DataType.Date)]
         [Required]
         public DateTime DateBirth { get; set; }
