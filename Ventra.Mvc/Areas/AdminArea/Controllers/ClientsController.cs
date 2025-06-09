@@ -6,24 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ventra.Domain.Entities;
+using Ventra.Domain.Enums;
 using Ventra.Infrastructure.Context;
+using Ventra.Infrastructure.Extensions;
 using Ventra.Infrastructure.Services.Interfaces;
 
-namespace Ventra.Mvc.Controllers
+namespace Ventra.Mvc.Areas.AdminArea.Controllers
 {
-    public class CategoriesController : Controller
+    public class ClientsController : Controller
     {
-        private readonly ICategoryService _service;
+        private readonly IClientService _service;
 
-        public CategoriesController(ICategoryService service)
+        public ClientsController(IClientService service)
         {
             _service = service;
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var categories = await _service.GetAll(cancellationToken);
-            return View(categories);
+            var clients = await _service.GetAll(cancellationToken);
+            return View(clients);
         }
 
         public async Task<IActionResult> Details(Guid? id, CancellationToken cancellationToken)
@@ -33,30 +35,32 @@ namespace Ventra.Mvc.Controllers
                 return NotFound();
             }
 
-            var category = await _service.GetById(id.Value, cancellationToken);
-            if (category == null)
+            var client = await _service.GetById(id.Value, cancellationToken);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(client);
         }
 
         public IActionResult Create()
         {
+            ViewData["UserStatus"] = this.AssembleSelectListToEnum(new UserStatus());
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category category, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(Client client, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                await _service.Add(category, cancellationToken);
+                await _service.Add(client, cancellationToken);
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["UserStatus"] = this.AssembleSelectListToEnum(new UserStatus());
+            return View(client);
         }
 
         public async Task<IActionResult> Edit(Guid? id, CancellationToken cancellationToken)
@@ -72,14 +76,15 @@ namespace Ventra.Mvc.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserStatus"] = this.AssembleSelectListToEnum(new UserStatus());
             return View(category);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Category category, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(Guid id, Client client, CancellationToken cancellationToken)
         {
-            if (id != category.Id)
+            if (id != client.Id)
             {
                 return NotFound();
             }
@@ -88,7 +93,7 @@ namespace Ventra.Mvc.Controllers
             {
                 try
                 {
-                    await _service.Update(category, cancellationToken);
+                    await _service.Update(client, cancellationToken);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -97,7 +102,8 @@ namespace Ventra.Mvc.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["UserStatus"] = this.AssembleSelectListToEnum(new UserStatus());
+            return View(client);
         }
 
         public async Task<IActionResult> Delete(Guid? id, CancellationToken cancellationToken)
@@ -107,14 +113,14 @@ namespace Ventra.Mvc.Controllers
                 return NotFound();
             }
 
-            var category = await _service.GetById(id.Value, cancellationToken);
+            var client = await _service.GetById(id.Value, cancellationToken);
 
-            if (category == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(client);
         }
 
         [HttpPost, ActionName("Delete")]

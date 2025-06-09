@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Ventra.Mvc.Controllers
 {
-    public class HomeController : Controller
+    public class AuthController : Controller
     {
         public IActionResult Index()
         {

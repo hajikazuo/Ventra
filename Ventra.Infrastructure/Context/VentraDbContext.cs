@@ -19,6 +19,11 @@ namespace Ventra.Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Client>()
+                .HasOne(c => c.User)
+                .WithOne(u => u.Client)
+                .HasForeignKey<User>(u => u.ClientId);
+
             //restringe a exclusão de clientes que possuem pedidos
             modelBuilder.Entity<Order>()
                 .HasOne<Client>(p => p.Client)

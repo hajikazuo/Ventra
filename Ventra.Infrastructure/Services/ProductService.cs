@@ -27,7 +27,7 @@ namespace Ventra.Infrastructure.Services
 
         public async Task<Product> GetById(Guid id, CancellationToken cancellationToken)
         {
-            return await _repository.GetById(id, cancellationToken);
+            return await _repository.GetByIdWithIncludes(id, cancellationToken);
         }
 
         public async Task<Product> Add(Product product, CancellationToken cancellationToken)

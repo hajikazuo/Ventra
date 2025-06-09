@@ -1,4 +1,5 @@
-﻿using RT.Comb;
+﻿using Microsoft.EntityFrameworkCore;
+using RT.Comb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,13 @@ namespace Ventra.Infrastructure.Repositories
         public ProductRepository(VentraDbContext context, ICombProvider comb) : base(context, comb)
         {
         }
+
+        public async Task<Product> GetByIdWithIncludes(Guid id, CancellationToken cancellationToken)
+        {
+            return await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        }
+
     }
 }

@@ -9,5 +9,6 @@ namespace Ventra.Domain.Interfaces
 {
     public interface IProductRepository : IBaseRepository<Product>
     {
+        Task<Product> GetByIdWithIncludes(Guid id, CancellationToken cancellationToken);
     }
 }

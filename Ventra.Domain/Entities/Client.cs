@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Ventra.Domain.Entities.Users;
 using Ventra.Domain.Enums;
 
 namespace Ventra.Domain.Entities
@@ -33,6 +34,7 @@ namespace Ventra.Domain.Entities
 
         public Address? Address { get; set; }
 
+        public virtual User? User { get; set; }
         public ICollection<Order>? Orders { get; set; }
     }
 }

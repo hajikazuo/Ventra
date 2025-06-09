@@ -20,6 +20,9 @@ namespace Ventra.Domain.Entities
         [Required]
         public int Stock { get; set; }
 
+        [MaxLength(100)]
+        public string? Image { get; set; }
+
         public Category? Category { get; set; }
         public Guid CategoryId { get; set; }
     }

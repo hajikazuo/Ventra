@@ -12,8 +12,8 @@ using Ventra.Infrastructure.Context;
 namespace Ventra.Infrastructure.Migrations
 {
     [DbContext(typeof(VentraDbContext))]
-    [Migration("20250528123049_DbInitial")]
-    partial class DbInitial
+    [Migration("20250604204238_DatabaseCreationBase")]
+    partial class DatabaseCreationBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,6 +175,11 @@ namespace Ventra.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -273,6 +278,10 @@ namespace Ventra.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<string>("Image")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -328,6 +337,9 @@ namespace Ventra.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -344,11 +356,6 @@ namespace Ventra.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -378,6 +385,10 @@ namespace Ventra.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId")
+                        .IsUnique()
+                        .HasFilter("[ClientId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -594,6 +605,15 @@ namespace Ventra.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Ventra.Domain.Entities.Users.User", b =>
+                {
+                    b.HasOne("Ventra.Domain.Entities.Client", "Client")
+                        .WithOne("User")
+                        .HasForeignKey("Ventra.Domain.Entities.Users.User", "ClientId");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("Ventra.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -602,6 +622,8 @@ namespace Ventra.Infrastructure.Migrations
             modelBuilder.Entity("Ventra.Domain.Entities.Client", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ventra.Domain.Entities.Order", b =>
