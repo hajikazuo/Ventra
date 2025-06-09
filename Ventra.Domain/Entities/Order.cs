@@ -7,22 +7,27 @@ namespace Ventra.Domain.Entities
     public class Order : BaseEntity
     {
         [Required]
-        [Display(Name = "Date/Time")]
+        [Display(Name = "Data/Hora do Pedido")]
         public DateTime OrderDateTime { get; set; }
 
         [Required]
+        [Display(Name = "Valor Total")]
         public double TotalValue { get; set; }
 
         [Required]
+        [Display(Name = "Status")]
         public OrderStatus Status { get; set; }
 
+        [Display(Name = "Cliente")]
         public Guid? ClientId { get; set; }
 
+        [Display(Name = "ID do Carrinho")]
         public string CartId { get; set; }
 
         [ForeignKey("ClientId")]
         public Client? Client { get; }
 
+        [Display(Name = "Endereço")]
         public Address? Address { get; set; }
 
         public ICollection<OrderItem>? OrderItems { get; set; }

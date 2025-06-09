@@ -7,6 +7,7 @@ using Ventra.Domain.Entities.Users;
 using Ventra.Domain.Interfaces;
 using Ventra.Infrastructure.Context;
 using Ventra.Infrastructure.Repositories;
+using Ventra.Infrastructure.Resources.Portuguese;
 using Ventra.Infrastructure.Services;
 using Ventra.Infrastructure.Services.Interfaces;
 
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<VentraDbContext>(options =>
 builder.Services.AddIdentityCore<User>()
                .AddRoles<Role>()
                .AddEntityFrameworkStores<VentraDbContext>()
+               .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
                .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>

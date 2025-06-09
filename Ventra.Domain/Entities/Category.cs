@@ -6,6 +6,7 @@ namespace Ventra.Domain.Entities
     {
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Nome")]
         public string Name { get; set; }
 
         public ICollection<Product>? Products { get; set; }
