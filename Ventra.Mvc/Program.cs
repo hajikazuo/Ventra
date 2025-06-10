@@ -5,9 +5,11 @@ using System;
 using System.Globalization;
 using Ventra.Domain.Entities.Users;
 using Ventra.Domain.Interfaces;
+using Ventra.Domain.Resources.Portuguese;
 using Ventra.Infrastructure.Context;
+using Ventra.Infrastructure.CrossCutting;
+using Ventra.Infrastructure.CrossCutting.Interfaces;
 using Ventra.Infrastructure.Repositories;
-using Ventra.Infrastructure.Resources.Portuguese;
 using Ventra.Infrastructure.Services;
 using Ventra.Infrastructure.Services.Interfaces;
 
@@ -46,6 +48,8 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IClientService, ClientService>();
+
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 builder.Services.AddSingleton(RT.Comb.Provider.Sql);
 

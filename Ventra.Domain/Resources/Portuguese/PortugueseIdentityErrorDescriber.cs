@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Ventra.Infrastructure.Resources.Portuguese
+namespace Ventra.Domain.Resources.Portuguese
 {
     public class PortugueseIdentityErrorDescriber : IdentityErrorDescriber
     {

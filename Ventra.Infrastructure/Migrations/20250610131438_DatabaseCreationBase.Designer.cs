@@ -12,7 +12,7 @@ using Ventra.Infrastructure.Context;
 namespace Ventra.Infrastructure.Migrations
 {
     [DbContext(typeof(VentraDbContext))]
-    [Migration("20250604204238_DatabaseCreationBase")]
+    [Migration("20250610131438_DatabaseCreationBase")]
     partial class DatabaseCreationBase
     {
         /// <inheritdoc />
@@ -258,6 +258,33 @@ namespace Ventra.Infrastructure.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("Ventra.Domain.Entities.Photo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DateUpdated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("Ventra.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -275,12 +302,8 @@ namespace Ventra.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(3000)
+                        .HasColumnType("nvarchar(3000)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -594,6 +617,15 @@ namespace Ventra.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Ventra.Domain.Entities.Photo", b =>
+                {
+                    b.HasOne("Ventra.Domain.Entities.Product", "Product")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Ventra.Domain.Entities.Product", b =>
                 {
                     b.HasOne("Ventra.Domain.Entities.Category", "Category")
@@ -629,6 +661,11 @@ namespace Ventra.Infrastructure.Migrations
             modelBuilder.Entity("Ventra.Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("Ventra.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

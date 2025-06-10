@@ -21,6 +21,7 @@ namespace Ventra.Infrastructure.Repositories
         {
             return await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.Photos)
                 .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 

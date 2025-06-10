@@ -1,19 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ventra.Domain.Resources.Portuguese;
 
 namespace Ventra.Domain.Entities
 {
     public class OrderItem : BaseEntity
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Display(Name = "Produto")]
         public Guid ProductId { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Display(Name = "Quantidade")]
         public float Quantity { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Display(Name = "Preço Unitário")]
         public double UnitPrice { get; set; }
 

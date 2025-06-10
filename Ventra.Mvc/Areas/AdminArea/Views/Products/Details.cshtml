@@ -55,6 +55,12 @@
     </dl>
 </div>
 <div>
+    @foreach(var item in Model.Photos)
+    {
+        <img class="img-fluid" src="@($"{ViewBag.Folder}/{item.Name}")" alt="Imagem do produto" />
+    }
+</div>
+<div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

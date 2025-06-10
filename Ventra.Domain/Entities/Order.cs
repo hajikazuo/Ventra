@@ -1,20 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ventra.Domain.Enums;
+using Ventra.Domain.Resources.Portuguese;
 
 namespace Ventra.Domain.Entities
 {
     public class Order : BaseEntity
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Display(Name = "Data/Hora do Pedido")]
         public DateTime OrderDateTime { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Display(Name = "Valor Total")]
         public double TotalValue { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Display(Name = "Status")]
         public OrderStatus Status { get; set; }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ventra.Infrastructure.Resources.Portuguese
+namespace Ventra.Domain.Resources.Portuguese
 {
     using System;
     
@@ -40,7 +40,7 @@ namespace Ventra.Infrastructure.Resources.Portuguese
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ventra.Infrastructure.Resources.Portuguese.TextosValidacao", typeof(TextosValidacao).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ventra.Domain.Resources.Portuguese.TextosValidacao", typeof(TextosValidacao).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
