@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Ventra.Domain.Entities.Photo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr id="row-@item.Id">
+            <td>
+                    <img class="img-fluid" src="@($"/img/products/{item.Name}")" alt="Imagem do produto" />
+            </td>
+            <td>
+                <button class="btn btn-danger btn-sm delete-photo" data-id="@item.Id">Excluir</button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<form asp-action="Create" asp-controller="Photos" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@ViewBag.ProductId" />
+
+    <div class="form-group">
+        <label for="files">Selecione as fotos:</label>
+        <input type="file" name="files" multiple class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar Fotos</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.delete-photo').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+
+                if (!confirm('Tem certeza que deseja excluir esta foto?')) return;
+
+                axios.post(`/AdminArea/Photos/Delete`, null, 
+                {
+                    params: { id: id }
+                })
+                .then(response => {
+                    if (response.data.success) {
+                        const row = document.getElementById(`row-${id}`);
+                        if (row) row.remove();
+                    } else {
+                        alert('Erro ao excluir.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao excluir a foto.');
+                });
+            });
+        });
+
+    </script>
+}

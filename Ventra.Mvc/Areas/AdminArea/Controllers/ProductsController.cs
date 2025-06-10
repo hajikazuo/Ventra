@@ -17,16 +17,11 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IProductService _service;
-        private readonly IConfiguration _configuration;
-        private readonly string _folderPath;
 
-        public ProductsController(ICategoryService categoryService, IProductService service, IConfiguration configuration)
+        public ProductsController(ICategoryService categoryService, IProductService service)
         {
             _categoryService = categoryService;
             _service = service;
-            _configuration = configuration;
-
-            _folderPath = _configuration["FolderUpload"] ?? throw new ArgumentNullException("FolderUpload configuration is missing.");
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -48,7 +43,6 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
                 return NotFound();
             }
 
-            ViewBag.Folder = _folderPath;
             return View(product);
         }
 
@@ -61,11 +55,11 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product, List<IFormFile> files, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(Product product, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                await _service.Add(product, files, _folderPath, cancellationToken);
+                await _service.Add(product, cancellationToken);
                 return RedirectToAction(nameof(Index));
             }
             var categories = _categoryService.GetAll(cancellationToken).Result;

@@ -12,7 +12,7 @@ namespace Ventra.Infrastructure.Services.Interfaces
     {
         Task<IEnumerable<Product>> GetAll(CancellationToken cancellationToken);
         Task<Product> GetById(Guid id, CancellationToken cancellationToken);
-        Task<Product> Add(Product product, List<IFormFile> files, string folderPath, CancellationToken cancellationToken);
+        Task<Product> Add(Product product, CancellationToken cancellationToken);
         Task<Product> Update(Product product, CancellationToken cancellationToken);
         Task<Product> Delete(Guid id, CancellationToken cancellationToken);
     }

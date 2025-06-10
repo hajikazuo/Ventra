@@ -1,13 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ventra.Domain.Entities;
+﻿using Ventra.Domain.Entities;
 using Ventra.Domain.Interfaces;
-using Ventra.Infrastructure.CrossCutting.Interfaces;
 using Ventra.Infrastructure.Services.Interfaces;
 
 namespace Ventra.Infrastructure.Services
@@ -16,13 +8,11 @@ namespace Ventra.Infrastructure.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductRepository _repository;
-        private readonly IPhotoService _photoService;
 
-        public ProductService(IUnitOfWork unitOfWork, IProductRepository repository, IPhotoService photoService)
+        public ProductService(IUnitOfWork unitOfWork, IProductRepository repository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
-            _photoService = photoService;
         }
 
         public async Task<IEnumerable<Product>> GetAll(CancellationToken cancellationToken)
@@ -35,16 +25,9 @@ namespace Ventra.Infrastructure.Services
             return await _repository.GetByIdWithIncludes(id, cancellationToken);
         }
 
-        public async Task<Product> Add(Product product, List<IFormFile> files,string folderPath, CancellationToken cancellationToken)
+        public async Task<Product> Add(Product product, CancellationToken cancellationToken)
         {
             _repository.Add(product);
-
-            foreach (var file in files)
-            {
-                var photo = await _photoService.UploadPhoto(folderPath, product.Id, file, cancellationToken);
-                product.Photos.Add(photo); 
-            }
-            
             await _unitOfWork.Commit(cancellationToken);
             return product;
         }

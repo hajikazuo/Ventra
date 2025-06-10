@@ -12,12 +12,12 @@ using Ventra.Infrastructure.CrossCutting.Interfaces;
 
 namespace Ventra.Infrastructure.CrossCutting
 {
-    public class PhotoService : IPhotoService
+    public class UploadService : IUploadService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICombProvider _comb;
 
-        public PhotoService(IUnitOfWork unitOfWork, ICombProvider comb)
+        public UploadService(IUnitOfWork unitOfWork, ICombProvider comb)
         {
             _unitOfWork = unitOfWork;
             _comb = comb;

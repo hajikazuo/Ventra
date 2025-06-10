@@ -57,7 +57,7 @@
 <div>
     @foreach(var item in Model.Photos)
     {
-        <img class="img-fluid" src="@($"{ViewBag.Folder}/{item.Name}")" alt="Imagem do produto" />
+        <img class="img-fluid" src="@($"/img/products/{item.Name}")" alt="Imagem do produto" />
     }
 </div>
 <div>

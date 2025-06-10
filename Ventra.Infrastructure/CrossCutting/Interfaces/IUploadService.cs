@@ -8,7 +8,7 @@ using Ventra.Domain.Entities;
 
 namespace Ventra.Infrastructure.CrossCutting.Interfaces
 {
-    public interface IPhotoService
+    public interface IUploadService
     {
         Task<Photo> UploadPhoto(string folderPath, Guid productId, IFormFile file, CancellationToken cancellationToken);
     }
