@@ -1,54 +1,62 @@
 ﻿@model IEnumerable<Ventra.Domain.Entities.Photo>
 
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Imagens";
+    ViewData["Title"] = pageName;
 }
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-            <tr id="row-@item.Id">
-            <td>
-                    <img class="img-fluid" src="@($"/img/products/{item.Name}")" alt="Imagem do produto" />
-            </td>
-            <td>
-                <button class="btn btn-danger btn-sm delete-photo" data-id="@item.Id">Excluir</button>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-
-<form asp-action="Create" asp-controller="Photos" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="@ViewBag.ProductId" />
-
-    <div class="form-group">
-        <label for="files">Selecione as fotos:</label>
-        <input type="file" name="files" multiple class="form-control" />
+<div class="container-xl">
+    <div class="mb-3">
     </div>
-
-    <button type="submit" class="btn btn-primary">Enviar Fotos</button>
-</form>
+    <div class="row row-cards">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Enviar imagens</h3>
+                    <form asp-action="Create" asp-controller="Photos" method="post" class="dropzone" id="dropzone-multiple" autocomplete="off" novalidate enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="@ViewBag.ProductId" />
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-vcenter table-mobile-md card-table">
+                        <thead>
+                            <tr>
+                                <th>Imagem</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Linhas serão inseridas via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
-        document.querySelectorAll('.delete-photo').forEach(button => {
-            button.addEventListener('click', function () {
-                const id = this.getAttribute('data-id');
+        function attachDeleteHandlers() {
+            document.querySelectorAll('.delete-photo').forEach(button => {
+                button.removeEventListener('click', deleteHandler);
+                button.addEventListener('click', deleteHandler);
+            });
+        }
 
-                if (!confirm('Tem certeza que deseja excluir esta foto?')) return;
+        function deleteHandler() {
+            const id = this.getAttribute('data-id');
 
-                axios.post(`/AdminArea/Photos/Delete`, null, 
-                {
-                    params: { id: id }
-                })
+            if (!confirm('Tem certeza que deseja excluir esta foto?')) return;
+
+            axios.post(`/AdminArea/Photos/Delete`, null, { params: { id: id } })
                 .then(response => {
                     if (response.data.success) {
                         const row = document.getElementById(`row-${id}`);
@@ -61,8 +69,56 @@
                     console.error('Erro:', error);
                     alert('Erro ao excluir a foto.');
                 });
-            });
-        });
+        }
 
+        async function loadTable(productId) {
+            try {
+                const response = await axios.get('/AdminArea/Photos/GetAll', { params: { id: productId } });
+                renderTable(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar as fotos:', error);
+                alert('Não foi possível carregar as fotos. Verifique o console para mais detalhes.');
+            }
+        }
+
+        function renderTable(photos) {
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+
+            photos.forEach(photo => {
+                const row = `
+                    <tr id="row-${photo.id}">
+                        <td>
+                            <img class="border" src="/img/products/${photo.name}" alt="Imagem do produto" style="width:100px; height: 100px;" />
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-sm delete-photo" data-id="${photo.id}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', row);
+            });
+
+            attachDeleteHandlers();
+        }
+
+        Dropzone.autoDiscover = false;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const productId = '@ViewBag.ProductId';
+
+            new Dropzone("#dropzone-multiple", {
+                dictDefaultMessage: "Arraste as imagens aqui ou clique para enviar",
+                init: function () {
+                    this.on("success", function () {
+                        loadTable(productId); 
+                    });
+                }
+            });
+
+            loadTable(productId); 
+        });
     </script>
 }

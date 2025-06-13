@@ -17,6 +17,14 @@ namespace Ventra.Infrastructure.Repositories
         {
         }
 
+        public async Task<IEnumerable<Product>> GetAllWithIncludes(CancellationToken cancellationToken)
+        {
+            return await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Photos)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<Product> GetByIdWithIncludes(Guid id, CancellationToken cancellationToken)
         {
             return await _context.Products

@@ -1,0 +1,7 @@
+﻿﻿﻿﻿@using Microsoft.AspNetCore.Identity
+@using Ventra.Domain.Entities.Users
+@inject SignInManager<User> SignInManager
+
+<ul class="navbar-nav">
+    <a class="dropdown-item" asp-area="" asp-controller="account" asp-action="logout">Logout</a>
+</ul>

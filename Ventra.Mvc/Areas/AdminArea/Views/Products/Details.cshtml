@@ -1,66 +1,87 @@
 ﻿@model Ventra.Domain.Entities.Product
 
 @{
-    ViewData["Title"] = "Details";
+    var pageName = "Detalhes do produto";
+    ViewData["Title"] = pageName;
 }
 
-<h1>Details</h1>
+<div class="container mt-3">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            @if (Model.Photos.Any())
+            {
+                var primeiraFoto = Model.Photos.First();
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateUpdated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateUpdated)
-        </dd>
-    </dl>
+                <div class="mb-4">
+                    <a data-fslightbox="gallery" href="@($"/img/products/{primeiraFoto.Name}")">
+                        <div class="img-responsive img-responsive-1x1 rounded border"
+                             style="background-image: url('@($"/img/products/{primeiraFoto.Name}")'); height: 350px; background-size: cover; background-position: center;">
+                        </div>
+                    </a>
+                </div>
+
+                <div class="swiper mb-3">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.Photos.Skip(1))
+                        {
+                            <div class="swiper-slide">
+                                <a data-fslightbox="gallery" href="@($"/img/products/{item.Name}")">
+                                    <div class="img-responsive img-responsive-1x1 rounded border"
+                                         style="background-image: url('@($"/img/products/{item.Name}")'); background-size: cover; background-position: center;">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            }
+            else
+            {
+                <div class="img-responsive img-responsive-21x9 rounded border"
+                     style="background-image: url('/img/static/no_photo.JPG'); height: 350px; background-size: cover; background-position: center;">
+                </div>
+            }
+        </div>
+
+        <div class="col-lg-6">
+            <div class="space-y-5">
+                <div>
+                    <div class="h3 mb-1">@Html.DisplayNameFor(model => model.Name)</div>
+                    <div class="text-secondary">@Html.DisplayFor(model => model.Name)</div>
+                </div>
+                <div>
+                    <div class="h3 mb-1">@Html.DisplayNameFor(model => model.Description)</div>
+                    <div class="text-secondary">@Html.DisplayFor(model => model.Description)</div>
+                </div>
+                <div>
+                    <div class="h3 mb-1">@Html.DisplayNameFor(model => model.Price)</div>
+                    <div class="text-secondary">@Html.DisplayFor(model => model.Price)</div>
+                </div>
+                <div>
+                    <div class="h3 mb-1">@Html.DisplayNameFor(model => model.Stock)</div>
+                    <div class="text-secondary">@Html.DisplayFor(model => model.Stock)</div>
+                </div>
+                <div>
+                    <div class="h3 mb-1">@Html.DisplayNameFor(model => model.Category)</div>
+                    <div class="text-secondary">@Html.DisplayFor(model => model.Category.Name)</div>
+                </div>
+                <div>
+                    <div class="h3 mb-1">@Html.DisplayNameFor(model => model.DateCreated)</div>
+                    <div class="text-secondary">@Html.DisplayFor(model => model.DateCreated)</div>
+                </div>
+                <div>
+                    <div class="h3 mb-1">@Html.DisplayNameFor(model => model.DateUpdated)</div>
+                    <div class="text-secondary">@Html.DisplayFor(model => model.DateUpdated)</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    @foreach(var item in Model.Photos)
-    {
-        <img class="img-fluid" src="@($"/img/products/{item.Name}")" alt="Imagem do produto" />
-    }
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="container mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+    <a asp-action="Index">Voltar para a lista</a>
 </div>

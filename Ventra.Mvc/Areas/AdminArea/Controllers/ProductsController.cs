@@ -59,8 +59,8 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.Add(product, cancellationToken);
-                return RedirectToAction(nameof(Index));
+                var newEntity = await _service.Add(product, cancellationToken);
+                return RedirectToAction("Index", "Photos", new { id = newEntity.Id });
             }
             var categories = _categoryService.GetAll(cancellationToken).Result;
             ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", product.CategoryId);
@@ -109,23 +109,6 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
             }
             var categories = _categoryService.GetAll(cancellationToken).Result;
             ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", product.CategoryId);
-            return View(product);
-        }
-
-        public async Task<IActionResult> Delete(Guid? id, CancellationToken cancellationToken)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _service.GetById(id.Value, cancellationToken);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
             return View(product);
         }
 

@@ -106,23 +106,6 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
             return View(client);
         }
 
-        public async Task<IActionResult> Delete(Guid? id, CancellationToken cancellationToken)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _service.GetById(id.Value, cancellationToken);
-
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return View(client);
-        }
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken)

@@ -17,7 +17,7 @@ namespace Ventra.Infrastructure.Services
 
         public async Task<IEnumerable<Product>> GetAll(CancellationToken cancellationToken)
         {
-            return await _repository.GetAll(cancellationToken);
+            return await _repository.GetAllWithIncludes(cancellationToken);
         }
 
         public async Task<Product> GetById(Guid id, CancellationToken cancellationToken)

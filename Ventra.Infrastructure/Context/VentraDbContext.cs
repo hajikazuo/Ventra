@@ -45,6 +45,12 @@ namespace Ventra.Infrastructure.Context
                 .WithMany()
                 .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Photo>()
+                .HasOne(p => p.Product)
+                .WithMany(p => p.Photos)
+                .HasForeignKey(p => p.ProductId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

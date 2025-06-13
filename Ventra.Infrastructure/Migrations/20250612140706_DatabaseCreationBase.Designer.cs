@@ -12,7 +12,7 @@ using Ventra.Infrastructure.Context;
 namespace Ventra.Infrastructure.Migrations
 {
     [DbContext(typeof(VentraDbContext))]
-    [Migration("20250610131438_DatabaseCreationBase")]
+    [Migration("20250612140706_DatabaseCreationBase")]
     partial class DatabaseCreationBase
     {
         /// <inheritdoc />
@@ -621,7 +621,8 @@ namespace Ventra.Infrastructure.Migrations
                 {
                     b.HasOne("Ventra.Domain.Entities.Product", "Product")
                         .WithMany("Photos")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Product");
                 });

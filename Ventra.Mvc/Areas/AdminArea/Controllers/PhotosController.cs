@@ -29,19 +29,32 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
             _folderPath = Path.Combine(env.WebRootPath, _configuration.GetValue<string>("FolderUpload") ?? throw new ArgumentNullException("FolderUpload configuration is missing."));
         }
 
-        public async Task<IActionResult> Index(Guid? id, CancellationToken cancellationToken)
+        public IActionResult Index(Guid? id)
         {
-            var photos = await _service.GetAll(id.Value, cancellationToken);
             ViewBag.ProductId = id;
-            return View(photos);
+            return View();
         }
 
+        public async Task<IActionResult> GetAll(Guid id)
+        {
+            var cancellationToken = HttpContext.RequestAborted;
+            var photos = await _service.GetAll(id, cancellationToken);
+
+            var response = photos.Select(photo => new
+            {
+                photo.Id,
+                photo.Name,
+                ProductId = photo.ProductId ?? Guid.Empty,
+            });
+
+            return Json(response);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Guid id, List<IFormFile> files, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(Guid id, List<IFormFile> file, CancellationToken cancellationToken)
         {
-            await _service.Add(id, files, _folderPath, cancellationToken);
+            await _service.Add(id, file, _folderPath, cancellationToken);
             return RedirectToAction(nameof(Index), new { id });
         }
 

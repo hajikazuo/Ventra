@@ -618,7 +618,8 @@ namespace Ventra.Infrastructure.Migrations
                 {
                     b.HasOne("Ventra.Domain.Entities.Product", "Product")
                         .WithMany("Photos")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Product");
                 });
