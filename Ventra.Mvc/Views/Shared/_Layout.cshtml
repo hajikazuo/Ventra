@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="pt-br">
 <head>
@@ -21,14 +21,11 @@
             <div class="page-body">
                 @RenderBody()
             </div>
-
             @{
                 await Html.RenderPartialAsync("_Footer");
             }
         </div>
     </div>
-
-
     @{
         await Html.RenderPartialAsync("_Scripts");
     }

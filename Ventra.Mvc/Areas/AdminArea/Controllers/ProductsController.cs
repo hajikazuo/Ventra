@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Ventra.Domain.Dto;
 using Ventra.Domain.Entities;
 using Ventra.Infrastructure.Context;
 using Ventra.Infrastructure.Services.Interfaces;
@@ -26,7 +27,7 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var products = await _service.GetAll(cancellationToken);
+            var products = await _service.GetAll(new ProductFilterDto(), cancellationToken);
             ViewBag.Confirm = TempData["Confirm"];
             return View(products);
         }

@@ -1,10 +1,57 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Ventra.Domain.Entities
+@model IEnumerable<Product>
+@{
+    var pageName = "Página Inicial";
+    ViewData["Title"] = pageName;
 }
 
 <div class="text-center">
     <a asp-area="AdminArea" asp-controller="Products" asp-action="Index">Administração</a>
 </div>
+
+<div class="container-xl">
+    <div class="mb-3">
+        <h2 class="text-primary">Produtos em destaque</h2>
+    </div>
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="row row-cards">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="d-block">
+                                @{
+                                    var primeiraFoto = item.Photos?.FirstOrDefault();
+                                    if (primeiraFoto != null)
+                                    {
+                                        <img src="@($"/img/products/{primeiraFoto.Name}")" class="card-img-top" alt="Foto" />
+                                    }
+                                    else
+                                    {
+                                        <img src="/img/static/no_photo.JPG" class="card-img-top" alt="Foto" />
+                                    }
+                                }
+
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 me-3" style="min-width: 0;">
+                                            <div class="text-truncate">@item.Name</div>
+                                            <div class="text-secondary"><span class="text-primary">R$ @item.Price</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section scripts {
     @Html.Raw(ViewBag.Confirm)

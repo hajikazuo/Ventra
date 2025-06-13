@@ -18,7 +18,6 @@ namespace Ventra.Domain.Entities
 
         [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Column(TypeName = "decimal(18,2)")]
-        [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Preço")]
         public decimal Price { get; set; }
 

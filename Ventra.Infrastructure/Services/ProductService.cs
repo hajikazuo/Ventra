@@ -1,4 +1,5 @@
-﻿using Ventra.Domain.Entities;
+﻿using Ventra.Domain.Dto;
+using Ventra.Domain.Entities;
 using Ventra.Domain.Interfaces;
 using Ventra.Infrastructure.Services.Interfaces;
 
@@ -15,9 +16,9 @@ namespace Ventra.Infrastructure.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Product>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Product>> GetAll(ProductFilterDto? filter, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllWithIncludes(cancellationToken);
+            return await _repository.GetAllWithIncludes(filter, cancellationToken);
         }
 
         public async Task<Product> GetById(Guid id, CancellationToken cancellationToken)

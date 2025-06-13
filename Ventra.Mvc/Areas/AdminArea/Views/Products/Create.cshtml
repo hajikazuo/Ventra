@@ -18,32 +18,32 @@
 
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
+                                <label asp-for="Name" class="form-label"></label>
                                 <input asp-for="Name" class="form-control" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Description" class="control-label"></label>
+                                <label asp-for="Description" class="form-label"></label>
                                 <textarea asp-for="Description" rows="5" class="form-control"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Price" class="control-label"></label>
-                                <input asp-for="Price" class="form-control" type="text" />
+                                <label asp-for="Price" class="form-label"></label>
+                                <input asp-for="Price" class="form-control" />
                                 <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Stock" class="control-label"></label>
+                                <label asp-for="Stock" class="form-label"></label>
                                 <input asp-for="Stock" class="form-control" />
                                 <span asp-validation-for="Stock" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="IsFeatured" class="control-label"></label>
+                                <label asp-for="IsFeatured" class="form-label"></label>
                                 <input asp-for="IsFeatured" class="form-check-input" />
                                 <span asp-validation-for="IsFeatured" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="CategoryId" class="control-label"></label>
+                                <label asp-for="CategoryId" class="form-label"></label>
                                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
                             </div>
 
@@ -62,13 +62,10 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
+    <script src="~/lib/maskmoney/jquery.maskmoney.min.js"></script>
     <script>
-        $('#Price').on('input', function () {
-            this.value = this.value.replace(',', '.');
+        $(document).ready(function () {
+            $('#Price').maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
         });
     </script>
 }
