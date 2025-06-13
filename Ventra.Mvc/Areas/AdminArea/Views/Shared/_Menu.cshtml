@@ -1,4 +1,8 @@
-﻿<aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
+﻿﻿﻿﻿@using Microsoft.AspNetCore.Identity
+@using Ventra.Domain.Entities.Users
+@inject UserManager<User> UserManager
+
+<aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,24 +26,24 @@
             <div class="nav-item dropdown">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @* var usuario = await UserManager.GetUserAsync(User);
-                    var funcoes = await UserManager.GetRolesAsync(usuario);
-                    var funcaoPrincipal = funcoes.FirstOrDefault();
+                    var user = await UserManager.GetUserAsync(User);
+                    var roles = await UserManager.GetRolesAsync(user);
+                    var principalRole = roles.FirstOrDefault();
 
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                        <img src="/assets/img/usuarios/@usuario.Imagem" class="avatar avatar-sm" onerror="ImgError(this)" />
+                        <div class="avatar avatar-sm rounded-circle bg-primary text-white text-center fw-bold d-flex align-items-center justify-content-center">
+                            @user.UserName?.Substring(0, 2).ToUpper()
+                        </div>
                         <div class="d-none d-xl-block ps-2">
-                            <div>@usuario.Nome</div>
-                            <div class="mt-1 small text-secondary">@funcaoPrincipal</div>
+                            <div>@user.UserName</div>
+                            <div class="mt-1 small text-secondary">@principalRole</div>
                         </div>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Edit" asp-route-id="@usuario.Id">Minha conta</a>
-                        @{
-                            await Html.RenderPartialAsync("_LoginPartial");
-                        }
-                    </div> *@
+                        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Edit" asp-route-id="@user.Id">Minha conta</a>
+                        @await Html.PartialAsync("_LoginPartial")
+                    </div>
                 }
             </div>
         </div>
@@ -58,19 +62,6 @@
                         </span>
                     </a>
                 </li>
-                @* @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin")))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="AdminSchoolHub" asp-controller="Home" asp-action="Index">
-                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                <i class="ti ti-settings"></i>
-                            </span>
-                            <span class="nav-link-title">
-                                Área administrativa
-                            </span>
-                        </a>
-                    </li>
-                } *@
                 <li class="nav-item">
                     <span class="nav-link"><strong>Cadastros</strong></span>
                 </li>

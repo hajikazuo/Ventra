@@ -23,20 +23,19 @@ builder.Services.AddDbContext<VentraDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddIdentityCore<User>()
-               .AddRoles<Role>()
-               .AddEntityFrameworkStores<VentraDbContext>()
-               .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
-               .AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, Role>()
+                   .AddEntityFrameworkStores<VentraDbContext>()
+                   .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
+                   .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
-    options.LogoutPath = "/Account/Logout";
+    options.LoginPath = "/Auth/Login";
+    options.AccessDeniedPath = "/Auth/AccessDenied";
+    options.LogoutPath = "/Auth/Logout";
     options.SlidingExpiration = true;
 });
 
@@ -52,6 +51,7 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 builder.Services.AddScoped<IUploadService, UploadService>();
+builder.Services.AddScoped<ISeedService, SeedService>();
 
 builder.Services.AddSingleton(RT.Comb.Provider.Sql);
 
@@ -62,6 +62,10 @@ using (var scope = app.Services.CreateScope())
     //migrations
     var db = scope.ServiceProvider.GetRequiredService<VentraDbContext>();
     db.Database.Migrate();
+
+    //seed
+    var seedUserService = scope.ServiceProvider.GetRequiredService<ISeedService>();
+    seedUserService.Seed();
 }
 
 // Configure the HTTP request pipeline.
