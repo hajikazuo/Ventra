@@ -26,6 +26,10 @@ namespace Ventra.Domain.Entities
         [Display(Name = "Estoque")]
         public int Stock { get; set; }
 
+        [Display(Name = "É destaque?")]
+        public bool IsFeatured { get; set; }
+
+
         [Display(Name = "Categoria")]
         public Category? Category { get; set; }
 

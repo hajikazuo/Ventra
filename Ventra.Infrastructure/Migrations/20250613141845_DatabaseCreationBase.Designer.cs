@@ -12,7 +12,7 @@ using Ventra.Infrastructure.Context;
 namespace Ventra.Infrastructure.Migrations
 {
     [DbContext(typeof(VentraDbContext))]
-    [Migration("20250612140706_DatabaseCreationBase")]
+    [Migration("20250613141845_DatabaseCreationBase")]
     partial class DatabaseCreationBase
     {
         /// <inheritdoc />
@@ -304,6 +304,9 @@ namespace Ventra.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

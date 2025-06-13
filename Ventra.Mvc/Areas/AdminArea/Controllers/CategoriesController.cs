@@ -23,6 +23,7 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             var categories = await _service.GetAll(cancellationToken);
+            ViewBag.Confirm = TempData["Confirm"];
             return View(categories);
         }
 
@@ -54,6 +55,8 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
             if (ModelState.IsValid)
             {
                 await _service.Add(category, cancellationToken);
+                TempData["Confirm"] = "<script>$(document).ready(function () {MostraConfirm('Sucesso', 'Cadastrado com sucesso!');})</script>";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -89,6 +92,7 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
                 try
                 {
                     await _service.Update(category, cancellationToken);
+                    TempData["Confirm"] = "<script>$(document).ready(function () {MostraConfirm('Sucesso', 'Editado com sucesso!');})</script>";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -105,6 +109,7 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken)
         {
             await _service.Delete(id, cancellationToken);
+            TempData["Confirm"] = "<script>$(document).ready(function () {MostraConfirm('Sucesso', 'Deletado com sucesso!');})</script>";
             return RedirectToAction(nameof(Index));
         }
     }

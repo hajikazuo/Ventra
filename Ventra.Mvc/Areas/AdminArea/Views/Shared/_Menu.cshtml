@@ -26,24 +26,7 @@
             <div class="nav-item dropdown">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    var user = await UserManager.GetUserAsync(User);
-                    var roles = await UserManager.GetRolesAsync(user);
-                    var principalRole = roles.FirstOrDefault();
-
-                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                        <div class="avatar avatar-sm rounded-circle bg-primary text-white text-center fw-bold d-flex align-items-center justify-content-center">
-                            @user.UserName?.Substring(0, 2).ToUpper()
-                        </div>
-                        <div class="d-none d-xl-block ps-2">
-                            <div>@user.UserName</div>
-                            <div class="mt-1 small text-secondary">@principalRole</div>
-                        </div>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Edit" asp-route-id="@user.Id">Minha conta</a>
-                        @await Html.PartialAsync("_LoginPartial")
-                    </div>
+                    @await Html.PartialAsync("_LoginPartial")
                 }
             </div>
         </div>

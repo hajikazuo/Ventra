@@ -6,6 +6,7 @@ namespace Ventra.Mvc.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Confirm = TempData["Confirm"];
             return View();
         }
     }

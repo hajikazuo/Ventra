@@ -6,4 +6,8 @@
     <a asp-area="AdminArea" asp-controller="Products" asp-action="Index">Administração</a>
 </div>
 
+@section scripts {
+    @Html.Raw(ViewBag.Confirm)
+}
+
 

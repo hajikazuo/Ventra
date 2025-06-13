@@ -45,6 +45,7 @@ namespace Ventra.Infrastructure.Services
             entity.Description = product.Description;
             entity.Price = product.Price;
             entity.Stock = product.Stock;
+            entity.IsFeatured = product.IsFeatured; 
             entity.CategoryId = product.CategoryId;
 
             _repository.Update(entity);
