@@ -7,3 +7,9 @@ deleteButtons.forEach(function (button) {
         document.getElementById('idParaDeletar').value = Id;
     });
 });
+
+function ImgError(source) {
+    source.src = "/img/static/no_photo.jpg"
+    source.onerror = "";
+    return true;
+}

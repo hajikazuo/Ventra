@@ -10,7 +10,7 @@ using Ventra.Mvc.ViewModel.AccountViewModels;
 
 namespace Ventra.Mvc.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;

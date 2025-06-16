@@ -49,11 +49,11 @@
                                             var primeiraFoto = item.Photos?.FirstOrDefault();
                                             if (primeiraFoto != null)
                                             {
-                                                <img src="@($"/img/products/{primeiraFoto.Name}")" class="avatar" alt="Foto" />
+                                                <img src="@($"/img/products/{primeiraFoto.Name}")" class="avatar" alt="Foto" onerror="ImgError(this)" />
                                             }
                                             else
                                             {
-                                                <img src="/img/static/no_photo.JPG" class="avatar" alt="Foto" />
+                                                <img src="/img/static/no_photo.jpg" class="avatar" alt="Foto"/>
                                             }
                                         }
                                     </td>

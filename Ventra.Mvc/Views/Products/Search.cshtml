@@ -1,0 +1,34 @@
+@using Ventra.Domain.Entities
+@model IEnumerable<Product>
+@{
+    var pageName = "Resultados da busca";
+    ViewData["Title"] = pageName;
+
+    var total = Model.Count();
+}
+
+<div class="container-xl mb-3">
+    <div class="row g-2 align-items-center">
+        <div class="col">
+            <h2 class="page-title">Resultados da busca</h2>
+            <div class="text-secondary mt-1">@total resultado(s) encontrado(s)</div>
+        </div>
+    </div>
+</div>
+<div class="container-xl">
+    <div class="row g-4">
+        <div class="col-md-3">
+            @await Html.PartialAsync("_ProductFilter", Model)
+        </div>
+
+        <div class="col-md-9">
+            @await Html.PartialAsync("_ProductCards", Model)
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Html.Raw(ViewBag.Confirm)
+}
+
+

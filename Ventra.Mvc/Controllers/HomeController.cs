@@ -9,18 +9,14 @@ namespace Ventra.Mvc.Controllers
     {
         private readonly IProductService _service;
 
-        public HomeController(IProductService service)
+        public HomeController(ICategoryService categoryService, IProductService service): base(categoryService)
         {
             _service = service;
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var filter = new ProductFilterDto
-            {
-                OnlyFeatured = true
-            };
-            var products = await _service.GetAll(filter, cancellationToken);
+            var products = await _service.GetAll(new ProductFilterDto { OnlyFeatured = true }, cancellationToken);
             ViewBag.Confirm = TempData["Confirm"];
             return View(products);
         }

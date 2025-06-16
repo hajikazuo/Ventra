@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var data = (LayoutViewModel)ViewBag.Layout;
+}
+
+<!DOCTYPE html>
 
 <html lang="pt-br">
 <head>
@@ -15,7 +19,7 @@
     <div class="page">
         @{
             await Html.RenderPartialAsync("_Navbar");
-            await Html.RenderPartialAsync("_Menu");
+            await Html.RenderPartialAsync("_Menu", data);
         }
         <div class="page-wrapper">
             <div class="page-body">

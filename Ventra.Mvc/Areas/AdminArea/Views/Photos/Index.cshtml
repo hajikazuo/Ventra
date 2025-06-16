@@ -89,7 +89,7 @@
                 const row = `
                     <tr id="row-${photo.id}">
                         <td>
-                            <img class="border" src="/img/products/${photo.name}" alt="Imagem do produto" style="width:100px; height: 100px;" />
+                            <img class="border" src="/img/products/${photo.name}" alt="Imagem do produto" onerror="ImgError(this)" style="width:100px; height: 100px;" />
                         </td>
                         <td>
                             <button class="btn btn-danger btn-sm delete-photo" data-id="${photo.id}">

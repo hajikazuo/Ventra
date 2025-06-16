@@ -13921,7 +13921,7 @@ body[data-bs-theme=dark] .navbar[data-bs-theme=light] {
 @media (min-width: 992px) {
   :root,
   :host {
-    margin-left: calc(100vw - 100%);
+    margin-left: 0;
     margin-right: 0;
   }
 }

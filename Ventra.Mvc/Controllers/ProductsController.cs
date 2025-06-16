@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ventra.Domain.Dto;
 using Ventra.Infrastructure.Services.Interfaces;
 
 namespace Ventra.Mvc.Controllers
@@ -7,7 +8,7 @@ namespace Ventra.Mvc.Controllers
     {
         private readonly IProductService _service;
 
-        public ProductsController(IProductService service)
+        public ProductsController(ICategoryService categoryService, IProductService service) : base(categoryService)
         {
             _service = service;
         }
@@ -26,6 +27,18 @@ namespace Ventra.Mvc.Controllers
             }
 
             return View(product);
+        }
+
+        public async Task<IActionResult> Search([FromQuery]string search, CancellationToken cancellationToken)
+        {
+            var products = await _service.GetAll(new ProductFilterDto { Search = search }, cancellationToken);
+            return View(products);
+        }
+
+        public async Task<IActionResult> SearchByCategories(Guid id, CancellationToken cancellationToken)
+        {
+            var products = await _service.GetAll(new ProductFilterDto { CategoryId = id }, cancellationToken);
+            return View("Search", products);
         }
     }
 }
