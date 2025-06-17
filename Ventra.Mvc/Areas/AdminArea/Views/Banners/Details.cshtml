@@ -1,0 +1,52 @@
+﻿@model Ventra.Domain.Entities.Banner
+
+@{
+    var pageName = "Banner detalhes";
+    ViewData["Title"] = pageName;
+}
+
+<div class="container-xl">
+    <div class="row row-cards">
+        <div class="col-12">
+            <div class="img-responsive img-responsive-3x1 rounded-3 border" style="background-image: url('@($"/img/banners/{Model.Name}")')"></div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@pageName</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IsActive)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IsActive)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.DateCreated)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.DateCreated)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.DateUpdated)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.DateUpdated)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer text-end">
+                    <div class="d-flex gap-1">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+                        <a asp-action="Index">Voltar para a lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -11,5 +11,6 @@ namespace Ventra.Infrastructure.CrossCutting.Interfaces
     public interface IUploadService
     {
         Task<Photo> UploadPhoto(string folderPath, Guid productId, IFormFile file, CancellationToken cancellationToken);
+        Task<Banner> UploadBanner(string folderPath, IFormFile file, CancellationToken cancellationToken);
     }
 }

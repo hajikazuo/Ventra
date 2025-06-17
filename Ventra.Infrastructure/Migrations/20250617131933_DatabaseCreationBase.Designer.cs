@@ -12,7 +12,7 @@ using Ventra.Infrastructure.Context;
 namespace Ventra.Infrastructure.Migrations
 {
     [DbContext(typeof(VentraDbContext))]
-    [Migration("20250613141845_DatabaseCreationBase")]
+    [Migration("20250617131933_DatabaseCreationBase")]
     partial class DatabaseCreationBase
     {
         /// <inheritdoc />
@@ -126,6 +126,31 @@ namespace Ventra.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Ventra.Domain.Entities.Banner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DateUpdated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Banners");
                 });
 
             modelBuilder.Entity("Ventra.Domain.Entities.Category", b =>

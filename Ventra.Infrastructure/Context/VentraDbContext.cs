@@ -14,6 +14,7 @@ namespace Ventra.Infrastructure.Context
         public DbSet<Client> Clients { get; set; }  
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Banner> Banners { get; set; }
         public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

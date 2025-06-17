@@ -50,6 +50,32 @@ namespace Ventra.Infrastructure.CrossCutting
             return photo;
         }
 
+        public async Task<Banner> UploadBanner(string folderPath, IFormFile file, CancellationToken cancellationToken)
+        {
+            if (file == null || file.Length == 0)
+            {
+                throw new ArgumentException("File cannot be null or empty.", nameof(file));
+            }
+
+            string extension = ValidateExtension(file);
+
+            var fileName = $"{Guid.NewGuid()}{extension}";
+            var fullPath = System.IO.Path.Combine(folderPath, fileName);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var banner = new Banner
+            {
+                Id = _comb.Create(),
+                Name = fileName,
+            };
+
+            return banner;
+        }
+
         private static string ValidateExtension(IFormFile file)
         {
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();

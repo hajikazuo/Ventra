@@ -13,7 +13,6 @@ using Ventra.Infrastructure.Services.Interfaces;
 
 namespace Ventra.Mvc.Areas.AdminArea.Controllers
 {
-    [Area("AdminArea")]
     public class PhotosController : Controller
     {
         private readonly IPhotoService _service;
@@ -26,7 +25,7 @@ namespace Ventra.Mvc.Areas.AdminArea.Controllers
             _service = service;
             _configuration = configuration;
             _env = env;
-            _folderPath = Path.Combine(env.WebRootPath, _configuration.GetValue<string>("FolderUpload") ?? throw new ArgumentNullException("FolderUpload configuration is missing."));
+            _folderPath = Path.Combine(env.WebRootPath, _configuration.GetValue<string>("ProductsFolderUpload") ?? throw new ArgumentNullException("ProductsFolderUpload configuration is missing."));
         }
 
         public IActionResult Index(Guid? id)
